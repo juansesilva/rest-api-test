@@ -1,0 +1,35 @@
+GET http://localhost:3000/movies
+
+###
+GET http://localhost:3000/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+
+###
+GET http://localhost:3000/movies?title=batman
+
+###
+GET http://localhost:3000/movies?genre=action
+
+
+###
+
+POST http://localhost:3000/movies
+Content-Type: application/json
+
+{
+  "title": "the good father",
+  "genre": ["action", "drama"],
+  "poster": "https://img.fruugo.com/product/4/49/14441494_max.jpg",
+  "year": 2023,
+  "duration": 120,
+  "director": "Francis Ford Coppola"
+}
+
+
+###
+PATCH http://localhost:3000/movies/dcdd0fad-a94c-4810-8acc-5f108d3b18c3
+Content-Type: application/json
+
+{
+  "title": "the good father 2",
+  "year": 2025
+}

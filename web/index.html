@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clase 3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            margin-bottom: 20px;
+        }
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
+        .movie {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        .movie img {
+            max-width: 320px;
+            height: auto;
+            border-radius: 5px;
+        }
+        .movie h3 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .movie p {
+            margin: 5px 0;
+        }
+    </style>
+    <script>
+        fetch('http://localhost:3000/movies')
+        .then(res => res.json())
+        .then(movies => {
+            const html = movies.map(movie => {
+                return `
+                <article class="movie" data-id="${movie.id}">
+                    <h3>${movie.title}</h3>
+                    <img src="${movie.poster}" alt="${movie.title}">
+                    <p>${movie.year}</p>
+                <button>
+                    Eliminar
+                    </button>
+                </article>
+            `
+            }).join('');
+            
+            document.querySelector('main').innerHTML = html;
+            document.addEventListener('click', (e) => {
+                if (e.target.matches('button')) {
+                    const movieElement = e.target.closest('.movie');
+                    const movieId = movieElement.dataset.id;
+                    fetch(`http://localhost:3000/movies/${movieId}`, {
+                        method: 'DELETE'
+                    })
+                    .then((res) => {
+                        if (!res.ok) {
+                            throw new Error('Error al eliminar la película');
+                        }
+                        movieElement.remove();
+                    });
+                }
+            });
+        })
+    </script>
+</head>
+<body>
+    <header>
+        <h1>Clase 3</h1>
+    </header>
+    <main>
+        <section>
+            <h2>Contenido de la Clase 3</h2>
+            <p>Este es un ejemplo de contenido para la clase 3.</p>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2023 Clase 3. Todos los derechos reservados.</p>
+    </footer>     
+</html>
